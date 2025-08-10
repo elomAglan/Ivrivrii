@@ -147,7 +147,7 @@ export default function Hero({ id }: HeroProps) {
                 >
                   <span className="relative flex items-center">
                     <Utensils className="mr-3" size={20} />
-                    Découvrir la carte
+                    Découvrir le menu
                     <ChevronRight className="ml-2 transition-transform duration-300 group-hover:translate-x-1" size={18} />
                   </span>
                 </Link>
