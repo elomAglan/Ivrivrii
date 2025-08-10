@@ -112,7 +112,7 @@ export default function Navigation() {
                 variant="ghost" 
                 className="w-full justify-start text-gray-700 hover:bg-amber-50 hover:text-amber-600"
               >
-                <a href="https://maps.app.goo.gl/your-location-link" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                <a href="https://maps.app.goo.gl/cbuiWkc1ymr6D7wJ7" target="_blank" rel="noopener noreferrer" className="flex items-center">
                   <MapPin size={16} />
                   <span>Localisation</span>
                 </a>
