@@ -68,9 +68,11 @@ export default function Navigation() {
                 <span>+228 90 00 00 00</span>
               </a>
             </Button>
-            <Button className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg hover:shadow-amber-200/50">
-              Réserver
-            </Button>
+            <Link href="/contact" passHref>
+              <Button className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg hover:shadow-amber-200/50">
+                Réserver
+              </Button>
+            </Link>
           </div>
 
           {/* Menu Mobile */}
@@ -115,9 +117,14 @@ export default function Navigation() {
                   <span>Localisation</span>
                 </a>
               </Button>
-              <Button className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg">
-                Réserver
-              </Button>
+              <Link href="/contact" passHref>
+                <Button 
+                  className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Réserver
+                </Button>
+              </Link>
             </div>
           </div>
         )}
