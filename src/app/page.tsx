@@ -46,7 +46,7 @@ export default function HomePage() {
 
 
       {/* Section Présentation - Version Modernisée */}
-      <section className="py-28 bg-gradient-to-b from-gray-50 to-white">
+<section className="pt-6 pb-24 bg-white">
         <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
           {/* En-tête */}
           <div className="text-center mb-24">
@@ -148,9 +148,7 @@ export default function HomePage() {
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-red-600">12,000 FCFA</span>
-                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white font-semibold transition-all duration-300 hover:scale-105">
-                    Commander
-                  </Button>
+
                 </div>
               </CardContent>
             </Card>
@@ -173,9 +171,7 @@ export default function HomePage() {
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-red-600">15,000 FCFA</span>
-                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white font-semibold transition-all duration-300 hover:scale-105">
-                    Commander
-                  </Button>
+
                 </div>
               </CardContent>
             </Card>
@@ -198,9 +194,7 @@ export default function HomePage() {
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-red-600">8,500 FCFA</span>
-                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white font-semibold transition-all duration-300 hover:scale-105">
-                    Commander
-                  </Button>
+
                 </div>
               </CardContent>
             </Card>

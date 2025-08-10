@@ -49,7 +49,6 @@ export default function Footer() {
                 { name: "Menu", href: "/menu" },
                 { name: "Notre Histoire", href: "/about" },
                 { name: "Galerie", href: "/gallery" },
-                { name: "Blog", href: "/blog" },
                 { name: "Contact", href: "/contact" }
               ].map((item, index) => (
                 <li key={index}>

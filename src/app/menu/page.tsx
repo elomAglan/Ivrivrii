@@ -189,66 +189,32 @@ export default function MenuPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header de la page */}
-{/* Hero Section avec image */}
-<section className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden">
-  {/* Image de fond */}
-  <div 
-    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-    style={{
-      backgroundImage: `url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
-    }}
-  />
-  
-  {/* Overlay gradient */}
-  <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
-  
-  {/* Contenu hero */}
-  <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white py-16">
-    <div className="flex flex-col sm:flex-row items-center justify-center mb-8 gap-4">
-      <ChefHat size={48} className="text-ivrivri-yellow animate-pulse sm:mr-4" />
-      <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white to-ivrivri-yellow bg-clip-text text-transparent">
-        Notre Menu
-      </h1>
-    </div>
-    
-    <p className="text-lg sm:text-xl md:text-2xl mb-6 max-w-4xl mx-auto font-light leading-relaxed">
-      Explorez notre sélection de plats authentiques qui célèbrent la richesse de la cuisine africaine
-    </p>
-    
-    <p className="text-base sm:text-lg md:text-xl mb-12 max-w-3xl mx-auto opacity-90 leading-relaxed">
-      Chaque plat est préparé avec des ingrédients frais et locaux, dans le respect des traditions culinaires africaines
-    </p>
-    
-    {/* Bouton d'action unique */}
-    <div className="flex justify-center mb-12">
-      <Button size="lg" className="bg-ivrivri-yellow hover:bg-yellow-500 text-black font-bold px-10 py-4 text-lg transform hover:scale-105 transition-all duration-300 shadow-2xl">
-        Voir le Menu Complet
-      </Button>
-    </div>
-    
-    {/* Indicateurs visuels - responsive */}
-    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm opacity-80">
-      <div className="flex items-center space-x-2">
-        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-        <span>Ingrédients frais du jour</span>
-      </div>
-      <div className="flex items-center space-x-2">
-        <Leaf size={16} className="text-green-400" />
-        <span>Options végétariennes</span>
-      </div>
-      <div className="flex items-center space-x-2">
-        <ChefHat size={16} className="text-ivrivri-yellow" />
-        <span>Recettes traditionnelles</span>
-      </div>
-    </div>
-  </div>
-  
-  {/* Flèche de scroll */}
-  <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-    <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-      <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
-    </div>
-  </div>
+{/* Header de la page */}
+<section className="relative py-20 pt-32 text-white overflow-hidden">
+ {/* Image de fond */}
+ <div 
+   className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+   style={{
+     backgroundImage: `url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
+   }}
+ />
+ 
+ {/* Overlay gradient */}
+ <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+ 
+ {/* Contenu */}
+ <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+   <div className="flex items-center justify-center mb-6">
+     <ChefHat size={48} className="mr-4 text-ivrivri-yellow" />
+     <h1 className="text-5xl md:text-6xl font-bold">Notre Menu</h1>
+   </div>
+   <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+     Explorez notre sélection de plats authentiques qui célèbrent la richesse de la cuisine africaine
+   </p>
+   <p className="text-lg opacity-90 max-w-2xl mx-auto">
+     Chaque plat est préparé avec des ingrédients frais et locaux, dans le respect des traditions culinaires africaines
+   </p>
+ </div>
 </section>
 
 {/* Navigation des catégories */}
@@ -320,12 +286,7 @@ export default function MenuPage() {
                       </p>
 
                       <div className="flex justify-between items-center">
-                        <Button
-                          size="sm"
-                          className="bg-ivrivri-red hover:bg-red-700 text-white"
-                        >
-                          Commander
-                        </Button>
+                       
                         <span className="text-sm text-gray-500">
                           Temps de préparation : 15-25 min
                         </span>
@@ -355,7 +316,7 @@ export default function MenuPage() {
             <Button
               size="lg"
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-black px-8 py-3"
+              className="border-white text-black hover:bg-white hover:text-black px-8 py-3"
             >
               Commander à Emporter
             </Button>

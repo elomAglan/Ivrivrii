@@ -1,17 +1,15 @@
-// components/Hero.tsx
 "use client";
 
 import React from "react";
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Utensils, CalendarDays, Sparkles } from "lucide-react";
+import { Utensils, CalendarDays, Sparkles, ChevronRight } from "lucide-react";
 
 interface HeroProps {
   id: string;
 }
 
-// Variantes d'animation (inchangées)
 const textContainerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -48,171 +46,149 @@ const underlineVariants: Variants = {
 };
 
 const bgImageVariants: Variants = {
-  hidden: { scale: 1.1 },
+  hidden: { opacity: 0, scale: 1.05 },
   visible: {
+    opacity: 1,
     scale: 1,
     transition: {
       duration: 1.5,
-      ease: "easeOut",
+      ease: [0.2, 0, 0, 1],
     },
   },
 };
 
-const chiefImageVariants: Variants = {
-  hidden: { x: "-100%", opacity: 0 },
+const plateImageVariants: Variants = {
+  hidden: { y: 50, opacity: 0 },
   visible: {
-    x: "0%",
+    y: 0,
     opacity: 1,
     transition: {
       duration: 1,
       delay: 0.6,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.2, 0, 0, 1],
     },
   },
 };
 
 export default function Hero({ id }: HeroProps) {
   return (
-    <section id={id} className="relative flex flex-col lg:flex-row items-center min-h-[calc(100vh-80px)] md:min-h-[600px] lg:h-[700px] overflow-hidden">
-      {/* Section image */}
-      <div className="relative w-full lg:w-1/2 h-64 lg:h-full overflow-hidden">
-        <motion.div
-          variants={bgImageVariants}
-          initial="hidden"
-          animate="visible"
-          className="absolute inset-0"
-        >
-          <Image
-            src="/hero-food.jpg"
-            alt="Nourriture Ivrivi"
-            fill
-            className="object-cover object-center"
-            priority
-            quality={100}
-          />
-        </motion.div>
+    <section id={id} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+      {/* Fond texturé élégant */}
+      <div className="absolute inset-0 bg-[url('/texture-paper.png')] opacity-10 mix-blend-overlay" />
+      
+      {/* Image de fond avec effet de flou contrôlé */}
+      <motion.div
+        variants={bgImageVariants}
+        initial="hidden"
+        animate="visible"
+        className="absolute inset-0 overflow-hidden"
+      >
+        <Image
+          src="/hero-restaurant.jpg"
+          alt="Restaurant Ivrivi"
+          fill
+          className="object-cover object-center"
+          priority
+          quality={100}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+      </motion.div>
 
-        <motion.div
-          variants={chiefImageVariants}
-          initial="hidden"
-          animate="visible"
-          className="absolute inset-0 z-10 flex items-end justify-start"
-        >
-          <div className="relative w-full h-[80%] sm:h-[90%] md:h-[90%] lg:h-[85%]">
-            <Image
-              src="/img-chef.png"
-              alt="Chef Ivrivi"
-              fill
-              className="object-contain object-left-bottom"
-              quality={100}
-              priority
-            />
-          </div>
-        </motion.div>
-
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent lg:hidden" />
-
-        {/* Separator with increased transparency */}
-        <div className="hidden lg:block absolute right-0 top-0 h-full w-32 z-10">
-          <svg
-            viewBox="0 0 200 100"
-            preserveAspectRatio="none"
-            className="h-full w-full"
+      {/* Contenu principal */}
+      <div className="container relative z-10 px-6 py-24 mx-auto">
+        <div className="flex flex-col lg:flex-row items-center">
+          {/* Section texte */}
+          <motion.div
+            variants={textContainerVariants}
+            initial="hidden"
+            animate="visible"
+            className="w-full lg:w-1/2 text-white mb-16 lg:mb-0 lg:pr-12"
           >
-            <path
-              d="M0,0 C60,20 50,80 0,100 L200,100 L200,0 Z"
-              className="fill-black"
-              style={{ opacity: 0.5 }}
-            />
-          </svg>
+            <motion.div variants={textItemVariants} className="mb-6">
+              <span className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-amber-100 border border-white/20">
+                <Sparkles className="mr-2" size={16} />
+                Excellence culinaire depuis 2015
+              </span>
+            </motion.div>
+
+            <motion.h1 variants={textItemVariants} className="text-5xl md:text-6xl lg:text-7xl font-light leading-tight mb-8">
+              <span className="block font-serif italic text-white/90">L'art de</span>
+              <span className="block font-bold mt-2">
+                <span className="text-amber-400 relative inline-block">
+                  Savourer
+                  <motion.span
+                    variants={underlineVariants}
+                    className="absolute bottom-0 left-0 w-full h-1 bg-amber-500 transform origin-left"
+                  />
+                </span>
+              </span>
+            </motion.h1>
+
+            <motion.p
+              variants={textItemVariants}
+              className="text-lg md:text-xl mb-12 text-white/80 leading-relaxed max-w-lg font-light"
+            >
+              Une expérience gastronomique unique où tradition et innovation se rencontrent. 
+              Notre chef étoilé revisite les classiques avec une touche contemporaine.
+            </motion.p>
+
+            <motion.div
+              variants={textItemVariants}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <motion.div
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <Link 
+                  href="/menu"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-medium tracking-tighter text-black bg-amber-500 rounded-lg hover:bg-amber-600 transition-all duration-300"
+                >
+                  <span className="relative flex items-center">
+                    <Utensils className="mr-3" size={20} />
+                    Découvrir la carte
+                    <ChevronRight className="ml-2 transition-transform duration-300 group-hover:translate-x-1" size={18} />
+                  </span>
+                </Link>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <Link 
+                  href="/reservation"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-medium tracking-tighter text-white border border-white/40 rounded-lg hover:border-white/80 transition-all duration-300 backdrop-blur-sm"
+                >
+                  <span className="relative flex items-center">
+                    <CalendarDays className="mr-3" size={20} />
+                    Réserver une table
+                    <ChevronRight className="ml-2 transition-transform duration-300 group-hover:translate-x-1" size={18} />
+                  </span>
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+          {/* Section image du plat signature */}
+          <motion.div
+            variants={plateImageVariants}
+            initial="hidden"
+            animate="visible"
+            className="w-full lg:w-1/2 flex justify-center lg:justify-end relative"
+          >
+           
+          </motion.div>
         </div>
       </div>
 
-      {/* Text Section */}
-      <div className="w-full lg:w-1/2 py-16 px-6 sm:px-12 lg:px-16 xl:px-24 bg-gradient-to-br from-gray-900 via-gray-900 to-amber-900 text-white relative z-20">
-        <motion.div
-          variants={textContainerVariants}
-          initial="hidden"
-          animate="visible"
-          className="max-w-2xl mx-auto flex flex-col items-start text-left"
-        >
-          <motion.div variants={textItemVariants} className="mb-4">
-            <motion.span
-              className="inline-flex items-center px-4 py-2 bg-amber-500/20 backdrop-blur-sm rounded-full text-sm font-medium text-amber-200 mb-4 border border-amber-400/30"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Sparkles className="mr-2" size={16} />
-              Nouvelle expérience culinaire
-            </motion.span>
-          </motion.div>
-
-          <motion.h1 variants={textItemVariants} className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-            <span className="block text-gray-100">Découvrez</span>
-            <span className="text-amber-400 relative inline-block">
-              Ivrivri
-              <motion.span
-                variants={underlineVariants}
-                className="absolute bottom-0 left-0 w-full h-1.5 bg-amber-500 transform origin-left"
-              />
-            </span>
-          </motion.h1>
-
-          <motion.p
-            variants={textItemVariants}
-            className="text-lg sm:text-xl md:text-2xl mb-8 text-gray-300 leading-relaxed"
-          >
-            Une symphonie de saveurs africaines modernes où chaque plat raconte une histoire,
-            préparée avec des ingrédients locaux d'exception par nos chefs étoilés.
-          </motion.p>
-
-          <motion.div
-            variants={textItemVariants}
-            className="flex flex-col sm:flex-row gap-4 w-full"
-          >
-            {/* Explorer le menu - Version corrigée */}
-            <motion.div
-              whileHover={{
-                y: -3,
-                boxShadow: "0 10px 25px -5px rgba(245, 158, 11, 0.3)"
-              }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full"
-            >
-              <Link 
-                href="/menu"
-                className="relative overflow-hidden group bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition-all duration-300 flex items-center justify-center w-full"
-              >
-                <span className="relative z-10 flex items-center">
-                  <Utensils className="mr-3" size={20} />
-                  Explorer le menu
-                </span>
-                <span className="absolute inset-0 bg-gradient-to-r from-amber-600 to-amber-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </Link>
-            </motion.div>
-
-            {/* Réserver une table - Version corrigée */}
-            <motion.div
-              whileHover={{
-                y: -3,
-                boxShadow: "0 10px 25px -5px rgba(255, 255, 255, 0.1)"
-              }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full"
-            >
-              <Link 
-                href="/contact"
-                className="relative overflow-hidden group bg-transparent border-2 border-white/60 hover:border-white text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition-all duration-300 flex items-center justify-center backdrop-blur-sm w-full"
-              >
-                <span className="relative z-10 flex items-center">
-                  <CalendarDays className="mr-3" size={20} />
-                  Réserver une table
-                </span>
-                <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </Link>
-            </motion.div>
-          </motion.div>
-        </motion.div>
+      {/* Indicateur de défilement élégant */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+        <div className="animate-bounce w-8 h-14 rounded-full border-2 border-white/50 flex justify-center p-1">
+          <div className="w-2 h-2 rounded-full bg-white/80 mt-2" />
+        </div>
       </div>
     </section>
   );
