@@ -1,13 +1,13 @@
+'use client';
+
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Heart, Users, Leaf, Award, ChefHat, Globe, Target, Star } from 'lucide-react';
 import Link from 'next/link';
-import type { Metadata } from 'next';
+import Image from 'next/image';
 
-export const metadata: Metadata = {
-  title: 'À propos - Restaurant Ivrivri | Notre Histoire et Mission',
-  description: 'Découvrez l\'histoire du restaurant Ivrivri, notre mission de promouvoir la cuisine africaine moderne et nos valeurs à Lomé, Togo.',
-};
+// L'exportation `metadata` a été supprimée d'ici pour résoudre l'erreur.
+// Si vous souhaitez la définir, faites-le dans un fichier Server Component (ex: layout.tsx).
 
 export default function AboutPage() {
   const values = [
@@ -38,48 +38,49 @@ export default function AboutPage() {
       name: "Chef Kofi Amenuveve",
       role: "Chef Exécutif",
       description: "Formé en France et au Togo, il maîtrise l'art de fusionner techniques modernes et saveurs traditionnelles.",
-      experience: "15 ans d'expérience"
+      experience: "15 ans d'expérience",
+      image: "/chef2.jpg" // Image chef1.jpg depuis le dossier public
     },
     {
       name: "Ama Koudawo",
       role: "Chef Pâtissière",
       description: "Spécialiste des desserts africains revisités, elle crée des douceurs qui racontent notre patrimoine.",
-      experience: "10 ans d'expérience"
+      experience: "10 ans d'expérience",
+      image: "/chef3.jpg" // Image chef2.jpg depuis le dossier public
     },
     {
       name: "Kwame Adobo",
       role: "Maître d'Hôtel",
       description: "Garant de l'hospitalité togolaise, il veille à ce que chaque client se sente comme chez lui.",
-      experience: "12 ans d'expérience"
+      experience: "12 ans d'expérience",
+      image: "/chef4.jpg" // Image chef3.jpg depuis le dossier public
     }
   ];
 
   return (
     <div className="min-h-screen bg-white">
-   {/* Header de la page */}
-<section className="relative py-20 pt-32 text-white overflow-hidden">
-  {/* Image de fond */}
-  <div 
-    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-    style={{
-      backgroundImage: `url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
-    }}
-  />
-  
-  {/* Overlay gradient */}
-  <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
-  
-  {/* Contenu */}
-  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <div className="flex items-center justify-center mb-6">
-      <Globe size={48} className="mr-4 text-ivrivri-yellow" />
-      <h1 className="text-5xl md:text-6xl font-bold">À Propos d'Ivrivri</h1>
-    </div>
-    <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-      Plus qu'un restaurant, une célébration de la culture culinaire africaine au cœur de Lomé
-    </p>
-  </div>
-</section>
+      {/* Header de la page */}
+      <section className="relative py-20 pt-32 text-white overflow-hidden">
+        {/* Image de fond */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
+          }}
+        />
+        {/* Overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+        {/* Contenu */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="flex items-center justify-center mb-6">
+            <Globe size={48} className="mr-4 text-ivrivri-yellow" />
+            <h1 className="text-5xl md:text-6xl font-bold">À Propos d'Ivrivri</h1>
+          </div>
+          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+            Plus qu'un restaurant, une célébration de la culture culinaire africaine au cœur de Lomé
+          </p>
+        </div>
+      </section>
 
       {/* Notre Histoire */}
       <section className="py-20 bg-gray-50">
@@ -217,19 +218,30 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
-              <Card key={index} className="overflow-hidden hover-lift transition-smooth">
-                <div className="h-48 bg-gradient-warm"></div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-ivrivri-black mb-1">
+              <Card key={index} className="overflow-hidden rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-100"> {/* Added subtle border */}
+                {/* L'image de l'équipe */}
+                <div className="relative h-64 w-full"> {/* Increased height for better image display */}
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+                    quality={75}
+                    onError={(e) => { e.currentTarget.src = "https://placehold.co/400x400/CCCCCC/000000?text=Image+Non+Trouvée"; }} // Fallback
+                  />
+                </div>
+                <CardContent className="p-6 text-center">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2 font-serif"> {/* Increased font size and adjusted margin */}
                     {member.name}
                   </h3>
-                  <p className="text-ivrivri-red font-semibold mb-2">
+                  <p className="text-red-600 font-semibold mb-3 text-base"> {/* Adjusted margin */}
                     {member.role}
                   </p>
-                  <p className="text-gray-600 mb-4 leading-relaxed">
+                  <p className="text-gray-600 mb-4 leading-relaxed text-sm">
                     {member.description}
                   </p>
-                  <div className="flex items-center text-sm text-gray-500">
+                  <div className="flex items-center text-sm text-gray-500 justify-center pt-3 border-t border-gray-100 mt-4"> {/* Added top border and padding */}
                     <ChefHat size={16} className="mr-2" />
                     <span>{member.experience}</span>
                   </div>

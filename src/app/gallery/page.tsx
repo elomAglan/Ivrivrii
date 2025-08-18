@@ -4,13 +4,14 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Camera, Users, ChefHat, Heart, X, ArrowLeft, ArrowRight } from 'lucide-react';
-import type { Metadata } from 'next';
+// type { Metadata } from 'next' n'est pas nécessaire ici car le composant est 'use client'
+// et les métadonnées doivent être exportées depuis un Server Component.
 
 interface GalleryImage {
   url: string;
   title: string;
   description: string;
-  category: 'plats' | 'clients' | 'staff' | 'restaurant';
+  category: 'plats' | 'clients' | 'restaurant';
 }
 
 export default function GalleryPage() {
@@ -76,33 +77,12 @@ export default function GalleryPage() {
       description: 'Nos clients célèbrent dans la joie et la bonne humeur',
       category: 'clients'
     },
-
-    // Staff et cuisine
-    {
-      url: 'https://images.squarespace-cdn.com/content/v1/6753548cbea08470fe2b54ff/1734384598758-JXU3C6OFWFAP3J9T5S6B/IMG_2650.jpg?format=1000w',
-      title: 'Notre Équipe en Action',
-      description: 'Nos chefs préparent avec passion vos plats favoris',
-      category: 'staff'
-    },
-    {
-      url: 'https://www.lemon8-app.com/seo/image?item_id=7351948582188417542&index=0&sign=e3e0907cf37bac7adc50da0628a741cb',
-      title: 'Préparation Artisanale',
-      description: 'Chaque plat est préparé avec soin et attention aux détails',
-      category: 'staff'
-    },
-    {
-      url: 'https://thumbs.dreamstime.com/b/close-up-nigerian-jollof-rice-fried-chicken-wings-plate-traditional-west-african-meal-famous-party-dish-spicy-delicious-385624859.jpg',
-      title: 'Art Culinaire',
-      description: 'La précision et la beauté dans chaque présentation',
-      category: 'staff'
-    }
   ];
 
   const categories = [
     { id: 'tous', label: 'Tous', icon: <Camera size={20} /> },
     { id: 'plats', label: 'Nos Plats', icon: <ChefHat size={20} /> },
     { id: 'clients', label: 'Clients Heureux', icon: <Heart size={20} /> },
-    { id: 'staff', label: 'Notre Équipe', icon: <Users size={20} /> }
   ];
 
   const filteredImages = selectedCategory === 'tous'
@@ -132,34 +112,34 @@ export default function GalleryPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header de la page */}
+{/* Header de la page */}
   <section className="relative py-20 pt-32 text-white overflow-hidden">
- {/* Image de fond */}
- <div 
-   className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-   style={{
-     backgroundImage: `url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
-   }}
- />
- 
- {/* Overlay gradient */}
- <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
- 
- {/* Contenu */}
- <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-   <div className="flex items-center justify-center mb-6">
-     <Camera size={48} className="mr-4 text-ivrivri-yellow" />
-     <h1 className="text-5xl md:text-6xl font-bold">Galerie & Mémoires</h1>
-   </div>
-   <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-     Découvrez l'univers d'Ivrivri à travers nos plus beaux moments
-   </p>
-   <p className="text-lg opacity-90 max-w-2xl mx-auto">
-     Plats savoureux, sourires authentiques et passion culinaire : immergez-vous dans notre histoire
-   </p>
- </div>
-</section>
-
+    {/* Image de fond */}
+    <div 
+      className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
+      }}
+    />
+    
+    {/* Overlay gradient */}
+    <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+    
+    {/* Contenu */}
+    <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="flex items-center justify-center mb-6">
+        <Camera size={48} className="mr-4 text-amber-400" /> {/* Icône Camera pour la galerie */}
+        <h1 className="text-5xl md:text-6xl font-bold">Galerie & Mémoires</h1> {/* Titre de la galerie */}
+      </div>
+      <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+        Découvrez l'univers d'Ivrivri à travers nos plus beaux moments
+      </p>
+      <p className="text-lg opacity-90 max-w-2xl mx-auto font-light">
+        Plats savoureux, sourires authentiques et passion culinaire : immergez-vous dans notre histoire
+      </p>
+    </div>
+  </section>
+  
       {/* Filtres de catégories */}
       <section className="py-8 bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -169,10 +149,10 @@ export default function GalleryPage() {
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
                 variant={selectedCategory === category.id ? "default" : "outline"}
-                className={`flex items-center space-x-2 px-6 py-3 transition-smooth ${
+                className={`flex items-center space-x-2 px-6 py-3 transition-all duration-200 rounded-full font-medium ${
                   selectedCategory === category.id
-                    ? 'bg-ivrivri-yellow text-black hover:bg-yellow-500'
-                    : 'hover:bg-ivrivri-yellow hover:text-black'
+                    ? 'bg-amber-500 text-black hover:bg-amber-600' // Couleurs ajustées pour harmonie
+                    : 'border-gray-200 text-gray-700 hover:bg-gray-100 hover:text-gray-900' // Couleurs ajustées
                 }`}
               >
                 {category.icon}
@@ -190,21 +170,21 @@ export default function GalleryPage() {
             {filteredImages.map((image, index) => (
               <Card
                 key={index}
-                className="overflow-hidden hover-lift transition-smooth cursor-pointer group"
+                className="overflow-hidden rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-100 cursor-pointer group" // Styles de carte améliorés
                 onClick={() => openModal(image, index)}
               >
                 <div className="relative">
                   <div
-                    className="h-64 bg-cover bg-center"
+                    className="h-64 w-full bg-cover bg-center rounded-t-xl" // Ajout de rounded-t-xl pour l'image
                     style={{ backgroundImage: `url('${image.url}')` }}
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 rounded-t-xl" /> {/* Assurer l'overlay aussi est arrondi */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
                     <Camera className="text-white" size={32} />
                   </div>
                 </div>
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-ivrivri-black mb-1 line-clamp-1">
+                <CardContent className="p-4 bg-white">
+                  <h3 className="font-semibold text-gray-900 mb-1 line-clamp-1 text-lg font-serif"> {/* Taille et font ajustées */}
                     {image.title}
                   </h3>
                   <p className="text-sm text-gray-600 line-clamp-2">
@@ -236,9 +216,9 @@ export default function GalleryPage() {
             {/* Bouton fermer */}
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 text-white hover:text-ivrivri-yellow transition-colors z-10"
+              className="absolute top-4 right-4 text-white hover:text-amber-400 transition-colors z-10 p-2 rounded-full bg-black/50 hover:bg-black/70" // Style du bouton
             >
-              <X size={32} />
+              <X size={28} /> {/* Taille ajustée */}
             </button>
 
             {/* Boutons navigation */}
@@ -246,30 +226,30 @@ export default function GalleryPage() {
               <>
                 <button
                   onClick={prevImage}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-ivrivri-yellow transition-colors"
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-amber-400 transition-colors p-2 rounded-full bg-black/50 hover:bg-black/70" // Style du bouton
                 >
-                  <ArrowLeft size={32} />
+                  <ArrowLeft size={28} /> {/* Taille ajustée */}
                 </button>
                 <button
                   onClick={nextImage}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-ivrivri-yellow transition-colors"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-amber-400 transition-colors p-2 rounded-full bg-black/50 hover:bg-black/70" // Style du bouton
                 >
-                  <ArrowRight size={32} />
+                  <ArrowRight size={28} /> {/* Taille ajustée */}
                 </button>
               </>
             )}
 
-            {/* Image */}
-            <div className="bg-white rounded-lg overflow-hidden">
+            {/* Image et informations dans la modal */}
+            <div className="bg-white rounded-xl overflow-hidden shadow-2xl"> {/* Bords arrondis pour la modal */}
               <div
-                className="h-96 bg-cover bg-center"
+                className="h-96 w-full bg-cover bg-center rounded-t-xl" // Bords arrondis pour l'image dans la modal
                 style={{ backgroundImage: `url('${selectedImage.url}')` }}
               />
               <div className="p-6">
-                <h3 className="text-2xl font-bold text-ivrivri-black mb-2">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2 font-serif">
                   {selectedImage.title}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 text-base">
                   {selectedImage.description}
                 </p>
                 <div className="mt-4 text-sm text-gray-500">
@@ -282,27 +262,27 @@ export default function GalleryPage() {
       )}
 
       {/* Section Call to Action */}
-      <section className="py-20 bg-ivrivri-black text-white">
+      <section className="py-20 bg-gray-900 text-white"> {/* Couleur de fond ajustée */}
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-6 text-ivrivri-yellow">
+          <h2 className="text-4xl font-bold mb-6 text-amber-400 font-serif"> {/* Couleur et font ajustées */}
             Créons de nouveaux souvenirs ensemble
           </h2>
-          <p className="text-xl mb-8 text-gray-300">
+          <p className="text-xl mb-8 text-gray-300 font-light">
             Rejoignez-nous pour vivre votre propre expérience Ivrivri et figurer dans notre prochaine galerie !
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-ivrivri-yellow hover:bg-yellow-500 text-black font-semibold px-8 py-3">
+            <Button size="lg" className="bg-amber-500 hover:bg-amber-600 text-gray-900 font-semibold rounded-full px-8 py-4 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
               Réserver une Table
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="border-white text-black hover:bg-white hover:text-black px-8 py-3"
+              className="border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300" // Style du bouton ajusté
             >
               Suivre sur Instagram
             </Button>
           </div>
-          <p className="mt-6 text-gray-400">
+          <p className="mt-6 text-gray-400 text-sm">
             Taguez-nous @ivrivri_restaurant pour apparaître dans notre galerie !
           </p>
         </div>

@@ -1,20 +1,20 @@
+// src/app/page.tsx
 'use client';
 
-import { useEffect, useRef } from 'react'; // Keep useEffect and useRef for other sections' animations
-import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { ChefHat, Heart, Utensils, Users, Star, ArrowRight, Clock, MapPin, Sparkles } from 'lucide-react'; // Remove ChevronDown as it's not in the new Hero
+import { ChefHat, Heart, Users, Star, ArrowRight, Clock, MapPin, Sparkles } from 'lucide-react'; 
 
-// Import the new Hero component
-import Hero from '@/components/Hero'; // Adjust path if necessary
+import Hero from '@/components/Hero'; 
+import LikeButton from '@/components/LikeButton'; 
+
+// --- IMPORTANT : `metadata` a été déplacé dans `src/app/layout.tsx` ---
+// Ne pas exporter `metadata` d'un composant 'use client' ici.
 
 export default function HomePage() {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    // Simple scroll animations with Intersection Observer
-    // This useEffect is now only for sections *other than* the Hero section
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
@@ -24,39 +24,48 @@ export default function HomePage() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate-fade-in');
-          observerRef.current?.unobserve(entry.target);
+          if (observerRef.current) {
+            observerRef.current.unobserve(entry.target);
+          }
         }
       });
     }, observerOptions);
 
-    // Observe all elements with animation classes for sections *after* Hero
     const animatedElements = document.querySelectorAll('.animate-on-scroll');
-    animatedElements.forEach(el => observerRef.current?.observe(el));
+    animatedElements.forEach(el => {
+      if (observerRef.current) {
+        observerRef.current.observe(el);
+      }
+    });
 
     return () => {
-      animatedElements.forEach(el => observerRef.current?.unobserve(el));
+      animatedElements.forEach(el => {
+        if (observerRef.current) {
+          observerRef.current.unobserve(el);
+        }
+      });
     };
   }, []);
 
   return (
     <div className="min-h-screen">
-      {/* Section Héro - Nouvelle version avec Framer Motion */}
-      {/* The 'id' prop is passed to allow internal linking from navigation or other parts of your app */}
       <Hero id="hero" />
 
 
       {/* Section Présentation - Version Modernisée */}
-<section className="pt-6 pb-24 bg-white">
+      <section className="py-20 bg-gradient-to-b from-white to-amber-50">
         <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
           {/* En-tête */}
-          <div className="text-center mb-24">
-            <div className="inline-flex items-center px-5 py-2.5 bg-amber-100 text-amber-800 font-medium rounded-full mb-6 shadow-sm animate-fade-in">
+          <div className="text-center mb-20 animate-fade-in">
+            <div className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold rounded-full mb-8 shadow-lg">
               <Sparkles className="mr-2" size={18} />
-              Notre Philosophie
+              <span className="text-sm tracking-wider">NOTRE PHILOSOPHIE</span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              L'Art Culinaire <br className="hidden md:block" />Africain Réinventé
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 font-serif leading-tight">
+              L'Art Culinaire <br className="hidden md:block" />
+              <span className="text-amber-600">Africain Réinventé</span>
             </h2>
+            <div className="w-24 h-1.5 bg-amber-500 mx-auto mb-8 rounded-full"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Chez Ivrivri, nous réinventons les saveurs africaines avec une touche contemporaine.
               Chaque création est un hommage à nos racines, revisité avec modernité.
@@ -64,149 +73,179 @@ export default function HomePage() {
           </div>
 
           {/* Cartes Valeurs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {/* Carte 1 - Chef Expérimenté */}
-            <div className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-500 overflow-hidden animate-fade-in-up animate-on-scroll"> {/* Added animate-on-scroll */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="group relative bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-amber-100 animate-fade-in-up">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-white/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative p-8 h-full flex flex-col items-center text-center">
-                <div className="w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center mb-6 shadow-md group-hover:scale-105 transition-transform duration-300">
-                  <ChefHat className="text-white" size={32} strokeWidth={1.5} />
+                <div className="w-28 h-28 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:rotate-6 group-hover:scale-105 transition-all duration-500">
+                  <ChefHat className="text-white w-10 h-10" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Maîtrise Culinaire</h3>
-                <p className="text-gray-600 mb-6 flex-grow">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 font-serif">Maîtrise Culinaire</h3>
+                <p className="text-gray-600 mb-6 flex-grow leading-relaxed">
                   Notre chef étoilé fusionne techniques ancestrales et innovations modernes pour des créations uniques.
                 </p>
-                <div className="w-8 h-0.5 bg-amber-400 group-hover:w-16 transition-all duration-500"></div>
+                <div className="w-full flex justify-center">
+                  <div className="w-12 h-1 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full group-hover:w-24 transition-all duration-500"></div>
+                </div>
               </div>
             </div>
 
             {/* Carte 2 - Ingrédients Frais */}
-            <div className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-500 overflow-hidden animate-fade-in-up delay-100 animate-on-scroll"> {/* Added animate-on-scroll */}
-              <div className="absolute inset-0 bg-gradient-to-br from-red-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="group relative bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-red-100 animate-fade-in-up delay-100">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-50/50 to-white/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative p-8 h-full flex flex-col items-center text-center">
-                <div className="w-24 h-24 bg-gradient-to-br from-red-400 to-red-600 rounded-2xl flex items-center justify-center mb-6 shadow-md group-hover:scale-105 transition-transform duration-300">
-                  <Heart className="text-white" size={32} strokeWidth={1.5} />
+                <div className="w-28 h-28 bg-gradient-to-br from-red-400 to-red-600 rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:-rotate-6 group-hover:scale-105 transition-all duration-500">
+                  {/* Utilisation de l'icône Heart directement ici car elle n'a pas d'interaction de like state */}
+                  <Heart className="text-white w-10 h-10" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Produits d'Exception</h3>
-                <p className="text-gray-600 mb-6 flex-grow">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 font-serif">Produits d'Exception</h3>
+                <p className="text-gray-600 mb-6 flex-grow leading-relaxed">
                   Sélection rigoureuse de producteurs locaux pour une fraîcheur incomparable et un impact positif.
                 </p>
-                <div className="w-8 h-0.5 bg-red-400 group-hover:w-16 transition-all duration-500"></div>
+                <div className="w-full flex justify-center">
+                  <div className="w-12 h-1 bg-gradient-to-r from-red-400 to-red-500 rounded-full group-hover:w-24 transition-all duration-500"></div>
+                </div>
               </div>
             </div>
 
             {/* Carte 3 - Ambiance Conviviale */}
-            <div className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-500 overflow-hidden animate-fade-in-up delay-200 animate-on-scroll"> {/* Added animate-on-scroll */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="group relative bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-orange-100 animate-fade-in-up delay-200">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 to-white/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative p-8 h-full flex flex-col items-center text-center">
-                <div className="w-24 h-24 bg-gradient-to-br from-orange-400 to-amber-500 rounded-2xl flex items-center justify-center mb-6 shadow-md group-hover:scale-105 transition-transform duration-300">
-                  <Users className="text-white" size={32} strokeWidth={1.5} />
+                <div className="w-28 h-28 bg-gradient-to-br from-orange-400 to-amber-500 rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:rotate-3 group-hover:scale-105 transition-all duration-500">
+                  <Users className="text-white w-10 h-10" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Expérience Unique</h3>
-                <p className="text-gray-600 mb-6 flex-grow">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 font-serif">Expérience Unique</h3>
+                <p className="text-gray-600 mb-6 flex-grow leading-relaxed">
                   Ambiance chaleureuse où design contemporain et traditions africaines créent une atmosphère inoubliable.
                 </p>
-                <div className="w-8 h-0.5 bg-orange-400 group-hover:w-16 transition-all duration-500"></div>
+                <div className="w-full flex justify-center">
+                  <div className="w-12 h-1 bg-gradient-to-r from-orange-400 to-amber-500 rounded-full group-hover:w-24 transition-all duration-500"></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section Spécialités */}
-<section className="pt-6 pb-24 bg-white">
+      {/* Section Spécialités - Version Premium */}
+      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20 animate-on-scroll">
-            <div className="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 font-semibold rounded-full mb-6">
-              <Sparkles className="mr-2" size={16} />
-              Plats Signature
+          <div className="text-center mb-20 animate-fade-in">
+            <div className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold rounded-full mb-8 shadow-lg">
+              <Sparkles className="mr-2" size={18} />
+              <span className="text-sm tracking-wider">PLATS SIGNATURE</span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Nos Spécialités
+            
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 font-serif leading-tight">
+              Nos Créations <span className="text-amber-600">Exclusives</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Découvrez nos plats signature qui font la réputation d'Ivrivri
+            
+            <div className="w-24 h-1.5 bg-amber-500 mx-auto mb-8 rounded-full"></div>
+            
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Des saveurs uniques élaborées avec des produits locaux et notre savoir-faire traditionnel
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="overflow-hidden custom-hover-lift transition-all duration-300 border-0 shadow-lg hover:shadow-2xl bg-white animate-on-scroll">
-              <div
-                className="h-56 bg-cover bg-center relative"
-                style={{
-                  backgroundImage: `url('https://www.shutterstock.com/image-photo/jollof-rice-popular-dish-west-600nw-2087420251.jpg')`
-                }}
-              >
-                <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
-                  Populaire
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {/* Carte 1 */}
+            <div className="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100 hover:border-red-100 animate-fade-in-up">
+              <div className="relative h-72 overflow-hidden">
+                <img
+                  src="https://www.shutterstock.com/image-photo/jollof-rice-popular-dish-west-600nw-2087420251.jpg"
+                  alt="Jollof Rice"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute top-4 right-4 bg-gradient-to-r from-red-600 to-red-700 text-white px-4 py-1 rounded-full text-xs font-bold shadow-lg">
+                  TOP VENTES
                 </div>
               </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Jollof Rice Signature</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Notre riz jollof aux épices traditionnelles, accompagné de poulet grillé et plantains dorés.
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-2xl font-bold text-gray-900 font-serif">Jollof Rice Premium</h3>
+                  <div className="flex items-center text-yellow-400">
+                    <Star className="fill-current w-4 h-4" />
+                    <span className="ml-1 text-gray-700 text-sm font-medium">4.9</span>
+                  </div>
+                </div>
+                <p className="text-gray-600 mb-6 leading-relaxed border-b border-gray-100 pb-6">
+                  Riz parfumé cuit dans une sauce tomate épicée, accompagné de poulet fermier grillé et plantains caramélisés.
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-red-600">12,000 FCFA</span>
-
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden custom-hover-lift transition-all duration-300 border-0 shadow-lg hover:shadow-2xl bg-white animate-on-scroll">
-              <div
-                className="h-56 bg-cover bg-center relative"
-                style={{
-                  backgroundImage: `url('https://momaa.org/wp-content/uploads/2023/04/11tmag-senega-1.jpeg')`
-                }}
-              >
-                <div className="absolute top-4 right-4 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-bold">
-                  Frais
+                  <span className="text-2xl font-bold text-red-600">12,500 FCFA</span>
+                  <LikeButton id="jollof-rice-premium" />
                 </div>
               </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Poisson Grillé Thiébou</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Poisson frais grillé aux légumes du marché, mariné dans nos épices secrètes.
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-red-600">15,000 FCFA</span>
+            </div>
 
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden custom-hover-lift transition-all duration-300 border-0 shadow-lg hover:shadow-2xl bg-white animate-on-scroll">
-              <div
-                className="h-56 bg-cover bg-center relative"
-                style={{
-                  backgroundImage: `url('https://resizer.otstatic.com/v3/photos/74154352-3?width=1280&height=720&webp=true')`
-                }}
-              >
-                <div className="absolute top-4 right-4 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-bold">
-                  Nouveau
+            {/* Carte 2 */}
+            <div className="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100 hover:border-red-100 animate-fade-in-up delay-100">
+              <div className="relative h-72 overflow-hidden">
+                <img
+                  src="https://momaa.org/wp-content/uploads/2023/04/11tmag-senega-1.jpeg"
+                  alt="Poisson Grillé"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-400 to-amber-500 text-gray-900 px-4 py-1 rounded-full text-xs font-bold shadow-lg">
+                  SAISONNIER
                 </div>
               </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Burger Africain</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Notre création unique : burger aux épices locales avec sauce yassa et légumes croquants.
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-2xl font-bold text-gray-900 font-serif">Thiébou Dieune Royal</h3>
+                  <div className="flex items-center text-yellow-400">
+                    <Star className="fill-current w-4 h-4" />
+                    <span className="ml-1 text-gray-700 text-sm font-medium">4.8</span>
+                  </div>
+                </div>
+                <p className="text-gray-600 mb-6 leading-relaxed border-b border-gray-100 pb-6">
+                  Poisson frais du jour grillé au feu de bois, servi avec riz aromatisé et légumes du marché.
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-red-600">8,500 FCFA</span>
-
+                  <span className="text-2xl font-bold text-red-600">16,500 FCFA</span>
+                  <LikeButton id="thiebou-dieune-royal" />
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
+
+            {/* Carte 3 */}
+            <div className="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100 hover:border-red-100 animate-fade-in-up delay-200">
+              <div className="relative h-72 overflow-hidden">
+                <img
+                  src="https://resizer.otstatic.com/v3/photos/74154352-3?width=1280&height=720&webp=true"
+                  alt="Burger Africain"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute top-4 right-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-1 rounded-full text-xs font-bold shadow-lg">
+                  NOUVEAUTÉ
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-2xl font-bold text-gray-900 font-serif">Burger Afro-Fusion</h3>
+                  <div className="flex items-center text-yellow-400">
+                    <Star className="fill-current w-4 h-4" />
+                    <span className="ml-1 text-gray-700 text-sm font-medium">4.7</span>
+                  </div>
+                </div>
+                <p className="text-gray-600 mb-6 leading-relaxed border-b border-gray-100 pb-6">
+                  Pain maison fourré à un steak d'agneau épicé, sauce yassa maison et accompagnements frais.
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl font-bold text-red-600">9,900 FCFA</span>
+                  <LikeButton id="burger-afro-fusion" />
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="text-center mt-16 animate-on-scroll">
-            <Link href="/menu">
-              <Button size="lg" className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-10 py-4 text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-lg">
-                Découvrir tout le Menu
-                <ArrowRight className="ml-2" size={20} />
-              </Button>
-            </Link>
+          <div className="text-center mt-20 animate-fade-in">
+            <a href="/menu" className="relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-bold text-white rounded-full group bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 transition-all duration-300 shadow-lg hover:shadow-xl">
+              <span className="relative z-10 text-lg tracking-wider">EXPLORER NOTRE MENU COMPLET</span>
+              <ArrowRight className="ml-3 relative z-10" size={20} />
+              <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></span>
+            </a>
           </div>
         </div>
       </section>
@@ -251,16 +290,16 @@ export default function HomePage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/contact">
+                <a href="/contact">
                   <Button size="lg" className="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-8 py-4 transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-lg">
                     Réserver maintenant
                   </Button>
-                </Link>
-                <Link href="/contact">
+                </a>
+                <a href="/contact">
                   <Button size="lg" className="bg-white/10 backdrop-blur-sm border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
                     Nous contacter
                   </Button>
-                </Link>
+                </a>
               </div>
             </div>
 
