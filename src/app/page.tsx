@@ -8,8 +8,6 @@ import { ChefHat, Heart, Users, Star, ArrowRight, Clock, MapPin, Sparkles } from
 import Hero from '@/components/Hero'; 
 import LikeButton from '@/components/LikeButton'; 
 
-// --- IMPORTANT : `metadata` a été déplacé dans `src/app/layout.tsx` ---
-// Ne pas exporter `metadata` d'un composant 'use client' ici.
 
 export default function HomePage() {
   const observerRef = useRef<IntersectionObserver | null>(null);
